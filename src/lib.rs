@@ -92,10 +92,28 @@ impl<T: PointOption> Add<(T, T)> for Point<T> {
     }
 }
 
+impl<T: PointOption> Add<Point<T>> for Point<T> {
+    type Output = Point<T>;
+
+    fn add(self, rhs: Point<T>) -> Self::Output {
+        Self {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+        }
+    }
+}
+
 impl<T: PointOption> AddAssign<(T, T)> for Point<T> {
     fn add_assign(&mut self, rhs: (T, T)) {
         self.x = self.x + rhs.0;
         self.y = self.y + rhs.1;
+    }
+}
+
+impl<T: PointOption> AddAssign<Point<T>> for Point<T> {
+    fn add_assign(&mut self, rhs: Point<T>) {
+        self.x = self.x + rhs.x;
+        self.y = self.y + rhs.y;
     }
 }
 
@@ -110,6 +128,17 @@ impl<T: PointOption> Sub<(T, T)> for Point<T> {
     }
 }
 
+impl<T: PointOption> Sub<Point<T>> for Point<T> {
+    type Output = Point<T>;
+
+    fn sub(self, rhs: Point<T>) -> Self::Output {
+        Self {
+            x: self.x - rhs.x,
+            y: self.y - rhs.y,
+        }
+    }
+}
+
 impl<T: PointOption> SubAssign<(T, T)> for Point<T> {
     fn sub_assign(&mut self, rhs: (T, T)) {
         self.x = self.x - rhs.0;
@@ -117,9 +146,22 @@ impl<T: PointOption> SubAssign<(T, T)> for Point<T> {
     }
 }
 
+impl<T: PointOption> SubAssign<Point<T>> for Point<T> {
+    fn sub_assign(&mut self, rhs: Point<T>) {
+        self.x = self.x - rhs.x;
+        self.y = self.y - rhs.y;
+    }
+}
+
 impl<T: PointOption> From<(T, T)> for Point<T> {
     fn from(p: (T, T)) -> Self {
         Self { x: p.0, y: p.1 }
+    }
+}
+
+impl<T: PointOption> From<Point<T>> for (T, T) {
+    fn from(value: Point<T>) -> Self {
+        (value.x, value.y)
     }
 }
 
