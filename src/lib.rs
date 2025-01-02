@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 use std::hash::Hash;
-use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Index, Sub, SubAssign};
 use std::str::FromStr;
 
 pub trait PointOption:
@@ -70,6 +70,14 @@ impl<T: PointOption + FromStr> FromStr for Point<T> {
 impl<T: PointOption + Into<isize>> Point<T> {
     pub fn distance(&self, other: &Point<T>) -> usize {
         self.x.into().abs_diff(other.x.into()) + self.y.into().abs_diff(other.y.into())
+    }
+}
+
+impl<T> Index<Point<usize>> for Vec<Vec<T>> {
+    type Output = T;
+
+    fn index(&self, index: Point<usize>) -> &Self::Output {
+        &self[index.x][index.y]
     }
 }
 
