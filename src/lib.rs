@@ -77,13 +77,13 @@ impl<T> Index<Point<usize>> for Vec<Vec<T>> {
     type Output = T;
 
     fn index(&self, index: Point<usize>) -> &Self::Output {
-        &self[index.x][index.y]
+        &self[index.y][index.x]
     }
 }
 
 impl<T> IndexMut<Point<usize>> for Vec<Vec<T>> {
     fn index_mut(&mut self, index: Point<usize>) -> &mut Self::Output {
-        &mut self[index.x][index.y]
+        &mut self[index.y][index.x]
     }
 }
 
