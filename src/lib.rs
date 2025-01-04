@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 use std::hash::Hash;
-use std::ops::{Add, AddAssign, Index, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Index, IndexMut, Sub, SubAssign};
 use std::str::FromStr;
 
 pub trait PointOption:
@@ -78,6 +78,12 @@ impl<T> Index<Point<usize>> for Vec<Vec<T>> {
 
     fn index(&self, index: Point<usize>) -> &Self::Output {
         &self[index.x][index.y]
+    }
+}
+
+impl<T> IndexMut<Point<usize>> for Vec<Vec<T>> {
+    fn index_mut(&mut self, index: Point<usize>) -> &mut Self::Output {
+        &mut self[index.x][index.y]
     }
 }
 
