@@ -3,6 +3,44 @@ use std::hash::Hash;
 use std::ops::{Add, AddAssign, Index, IndexMut, Sub, SubAssign};
 use std::str::FromStr;
 
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Hash)]
+pub enum Direction {
+    Left,
+    Right,
+    Up,
+    Down,
+}
+
+impl Direction {
+    pub fn rotate_clockwise(self) -> Direction {
+        match self {
+            Direction::Left => Direction::Up,
+            Direction::Right => Direction::Down,
+            Direction::Up => Direction::Right,
+            Direction::Down => Direction::Left,
+        }
+    }
+
+    pub fn rotate_counterclockwise(self) -> Direction {
+        match self {
+            Direction::Left => Direction::Down,
+            Direction::Right => Direction::Up,
+            Direction::Up => Direction::Left,
+            Direction::Down => Direction::Right,
+        }
+    }
+
+    /// Based off upper-left being 0,0
+    pub fn as_vector(&self) -> Point {
+        match self {
+            Direction::Left => (-1, 0).into(),
+            Direction::Right => (1, 0).into(),
+            Direction::Up => (0, -1).into(),
+            Direction::Down => (0, 1).into(),
+        }
+    }
+}
+
 pub trait PointOption:
     Add<Output = Self>
     + Sub<Output = Self>
