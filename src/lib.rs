@@ -1,25 +1,21 @@
-use std::fmt;
 use std::fmt::{Debug, Display};
 use std::hash::Hash;
 use std::ops::{Add, AddAssign, Index, IndexMut, Sub, SubAssign};
 use std::str::FromStr;
 
-
 pub trait PrintBoard {
-    fn print_board(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result;
+    fn print_board(&self) -> String;
 }
 
 impl<T> PrintBoard for Vec<Vec<T>>
-where T: Display
+where
+    T: Display,
 {
-    fn print_board(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        for row in self.iter() {
-            for square in row.iter() {
-                write!(f, "{} ", square)?;
-            }
-            writeln!(f)?;
-        }
-        Ok(())
+    fn print_board(&self) -> String {
+        self.iter()
+            .map(|row| row.iter().map(|sq| sq.to_string()).collect())
+            .reduce(|left, right| format!("{}\n{}", left, right))
+            .unwrap_or_default()
     }
 }
 
